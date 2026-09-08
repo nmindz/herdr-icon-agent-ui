@@ -48,6 +48,12 @@ jobs:
       # Ephemeral: semantic-release and its plugins are fetched by npx for
       # this run only via -p. The repo carries no package.json/node_modules
       # of its own — this is a Python/Herdr plugin, not an npm package.
+      # conventional-changelog-conventionalcommits is pinned to ^8: latest
+      # (v9+) requires conventional-changelog-writer@9, but
+      # @semantic-release/release-notes-generator still bundles writer@8,
+      # and npx -p installs each package independently with no shared
+      # resolution — the mismatch fails generateNotes with a cryptic
+      # "Missing helper" Handlebars error.
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -60,5 +66,5 @@ jobs:
             -p @semantic-release/exec \
             -p @semantic-release/git \
             -p @semantic-release/github \
-            -p conventional-changelog-conventionalcommits \
+            -p conventional-changelog-conventionalcommits@^8 \
             semantic-release
