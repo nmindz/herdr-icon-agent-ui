@@ -1,0 +1,64 @@
+name: Release
+
+# Runs only after CI succeeded on master. semantic-release decides from the
+# Conventional Commits since the last tag whether there is anything to
+# release at all, so a docs/chore/ci-only push exits in seconds without
+# touching anything.
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [master]
+  workflow_dispatch:
+
+# This plugin has no npm publish target (Herdr only installs plugins from
+# a GitHub repo or a local path — see src/api/schema/plugins.rs upstream).
+# A release is therefore just a version bump in herdr-plugin.toml, a
+# CHANGELOG.md entry, a git tag, and a GitHub Release — no OIDC, no
+# registry credential of any kind.
+permissions:
+  contents: write # semantic-release pushes the manifest/changelog commit and the tag
+  issues: write # release comments on the issues a release closes
+  pull-requests: write
+
+jobs:
+  release:
+    name: Release
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # Check out the exact commit CI validated, with full history so
+          # semantic-release can read every commit since the last tag.
+          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
+          fetch-depth: 0
+          persist-credentials: true
+
+      # Checking out a SHA leaves a detached HEAD, and semantic-release
+      # refuses to release from one ("triggered on the branch undefined").
+      # Put a real master branch on the exact commit CI validated.
+      - name: Attach the validated commit to master
+        run: git checkout -B master ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+
+      # Ephemeral: semantic-release and its plugins are fetched by npx for
+      # this run only via -p. The repo carries no package.json/node_modules
+      # of its own — this is a Python/Herdr plugin, not an npm package.
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npx --yes \
+            -p semantic-release \
+            -p @semantic-release/commit-analyzer \
+            -p @semantic-release/release-notes-generator \
+            -p @semantic-release/changelog \
+            -p @semantic-release/exec \
+            -p @semantic-release/git \
+            -p @semantic-release/github \
+            -p conventional-changelog-conventionalcommits \
+            semantic-release

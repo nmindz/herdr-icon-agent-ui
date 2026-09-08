@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+# Superseded runs on the same ref are pointless once a newer commit exists.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Runtime tests (Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      # Runtime plugin uses stdlib only (tomllib ships with 3.11+).
+      - run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+
+  font:
+    name: Font build and reproducibility
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install -r requirements-font.txt
+
+      - run: python -m unittest tests.test_font -v
+
+      # dist/ ships a prebuilt font. build_font.py is deterministic, so a
+      # fresh build must match byte-for-byte — otherwise someone edited a
+      # source SVG or the build script without regenerating the shipped TTF.
+      - name: Verify committed font matches a fresh build
+        run: |
+          cp dist/HerdrAgentIconsMax-Regular.ttf /tmp/committed.ttf
+          python tools/build_font.py
+          cmp /tmp/committed.ttf dist/HerdrAgentIconsMax-Regular.ttf || {
+            echo "::error::dist/HerdrAgentIconsMax-Regular.ttf is stale — rebuild with tools/build_font.py and commit the result."
+            exit 1
+          }
