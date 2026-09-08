@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0](https://github.com/nmindz/herdr-icon-agent-ui/compare/v1.3.0...v2.0.0) (2026-09-08)
+
+### ⚠ BREAKING CHANGES
+
+* plugin id changes from qintmb.herdr-icon-agent-ui to
+nmindz.herdr-icon-agent-ui. This moves the plugin config-dir and the
+GitHub install source; existing installs under the qintmb id must
+uninstall and reinstall from nmindz/herdr-icon-agent-ui.
+
+### Features
+
+* alias dsh/deepseek-harness agent labels to the deepseek logo ([492cb89](https://github.com/nmindz/herdr-icon-agent-ui/commit/492cb89bb5a7f1747a207f35841b5f1856796723))
+* rebrand plugin id and install source to the nmindz fork ([51b4c95](https://github.com/nmindz/herdr-icon-agent-ui/commit/51b4c95a02dfd79c40b1b835d307b6cccf1487c7))
+
+### Bug Fixes
+
+* exclude test_font from the dependency-free CI test job ([2c2f838](https://github.com/nmindz/herdr-icon-agent-ui/commit/2c2f838a8e9f45b309305134d3130ff15fc271de))
+* pin conventional-changelog-conventionalcommits to v8 in release workflow ([a8b12da](https://github.com/nmindz/herdr-icon-agent-ui/commit/a8b12daac8e99c5c3314ad7b39a445233e42865c))
+
+### Documentation
+
+* inline mp4 video, drop svg icon grid ([6cb839f](https://github.com/nmindz/herdr-icon-agent-ui/commit/6cb839f2766f72885e1d36286e93ca63c658e798))
+
 ## [1.3.0] - 2026-08-20
 
 ### Added
