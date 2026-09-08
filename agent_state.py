@@ -264,7 +264,7 @@ def stop_animator() -> None:
 
 def main() -> int:
     source = os.environ.get(
-        "HERDR_PLUGIN_ID", "qintmb.herdr-icon-agent-ui"
+        "HERDR_PLUGIN_ID", "nmindz.herdr-icon-agent-ui"
     )
     source = f"plugin:{source}:state"
     arg = sys.argv[1] if len(sys.argv) > 1 else ""

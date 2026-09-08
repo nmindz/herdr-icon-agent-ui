@@ -99,7 +99,7 @@ def build(output: Path) -> None:
             "copyright": "See THIRD_PARTY_NOTICES.md; marks belong to their respective owners.",
             "familyName": family,
             "styleName": "Regular",
-            "uniqueFontIdentifier": f"qintmb.herdr-icon-agent-ui:{version}",
+            "uniqueFontIdentifier": f"nmindz.herdr-icon-agent-ui:{version}",
             "fullName": f"{family} Regular",
             "version": f"Version {version}",
             "psName": family.replace(" ", "-") + "-Regular",

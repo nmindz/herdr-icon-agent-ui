@@ -52,13 +52,13 @@ Herdr-recognized harnesses without a safely reusable mark are left unmarked (tok
 ### From GitHub
 
 ```sh
-herdr plugin install qintmb/herdr-icon-agent-ui
+herdr plugin install nmindz/herdr-icon-agent-ui
 ```
 
 ### Or link from a local directory
 
 ```sh
-git clone https://github.com/qintmb/herdr-icon-agent-ui.git
+git clone https://github.com/nmindz/herdr-icon-agent-ui.git
 herdr plugin link /path/to/herdr-icon-agent-ui
 ```
 
@@ -66,7 +66,7 @@ Verify:
 
 ```sh
 herdr plugin list
-herdr plugin config-dir qintmb.herdr-icon-agent-ui
+herdr plugin config-dir nmindz.herdr-icon-agent-ui
 ```
 
 ### 2.1 Install the font (required for icon graphics)
@@ -121,7 +121,7 @@ Then reload:
 
 ```sh
 herdr server reload-config
-herdr plugin action invoke refresh --plugin qintmb.herdr-icon-agent-ui
+herdr plugin action invoke refresh --plugin nmindz.herdr-icon-agent-ui
 ```
 
 ## 3. Initialize project
@@ -171,7 +171,7 @@ herdr-icon-agent-ui/
 
 ### Icon variant
 
-Write to the plugin config (`$(herdr plugin config-dir qintmb.herdr-icon-agent-ui)/config.toml`):
+Write to the plugin config (`$(herdr plugin config-dir nmindz.herdr-icon-agent-ui)/config.toml`):
 
 ```toml
 variant = "auto"   # use font when installed, otherwise text fallback (default)
@@ -183,8 +183,8 @@ variant = "auto"   # use font when installed, otherwise text fallback (default)
 Or via CLI:
 
 ```sh
-python3 tools/preview.py --select font --config "$(herdr plugin config-dir qintmb.herdr-icon-agent-ui)/config.toml"
-herdr plugin action invoke refresh --plugin qintmb.herdr-icon-agent-ui
+python3 tools/preview.py --select font --config "$(herdr plugin config-dir nmindz.herdr-icon-agent-ui)/config.toml"
+herdr plugin action invoke refresh --plugin nmindz.herdr-icon-agent-ui
 ```
 
 ### Colors per agent
@@ -257,7 +257,7 @@ Manual commands:
 
 ```sh
 # Reapply icons to all panes
-herdr plugin action invoke refresh --plugin qintmb.herdr-icon-agent-ui
+herdr plugin action invoke refresh --plugin nmindz.herdr-icon-agent-ui
 
 # Check attached token
 herdr pane get <PANE_ID>
@@ -273,17 +273,17 @@ python3 tools/preview.py
 Plugin v1 has no `plugin update` — reinstall from GitHub to refresh:
 
 ```sh
-herdr plugin install qintmb/herdr-icon-agent-ui --yes
+herdr plugin install nmindz/herdr-icon-agent-ui --yes
 ```
 
-Config and state remain in `~/.config/herdr/plugins/config/qintmb.herdr-icon-agent-ui/`.
+Config and state remain in `~/.config/herdr/plugins/config/nmindz.herdr-icon-agent-ui/`.
 
 To update the font: replace the TTF in the system font directory, then open a new terminal surface.
 
 ### Remove
 
 ```sh
-herdr plugin uninstall qintmb.herdr-icon-agent-ui
+herdr plugin uninstall nmindz.herdr-icon-agent-ui
 ```
 
 Clean up the font (optional):
@@ -308,7 +308,7 @@ Remove the two Ghostty lines (`font-family = "Herdr Agent Icons Max"` and `font-
 - Install from trusted sources with `--ref` to pin a specific revision:
 
 ```sh
-herdr plugin install qintmb/herdr-icon-agent-ui --ref <commit>
+herdr plugin install nmindz/herdr-icon-agent-ui --ref <commit>
 ```
 
 ## License

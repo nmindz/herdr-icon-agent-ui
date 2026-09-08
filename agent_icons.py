@@ -200,7 +200,7 @@ def main() -> int:
     args = parser.parse_args()
 
     herdr = os.environ.get("HERDR_BIN_PATH", "herdr")
-    plugin_id = os.environ.get("HERDR_PLUGIN_ID", "qintmb.herdr-icon-agent-ui")
+    plugin_id = os.environ.get("HERDR_PLUGIN_ID", "nmindz.herdr-icon-agent-ui")
     source = args.source or f"plugin:{plugin_id}"
     variant = configured_variant(args.variant)
 
