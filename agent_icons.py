@@ -2,7 +2,7 @@
 """Apply display-only icons to Herdr agent names.
 
 Supports: claude, codex, opencode, omp, cline, mastracode, kimi, kilo,
-maki, pi, hermes, cursor, copilot, deepseek, gemini, gpt, qwen.
+maki, pi, hermes, cursor, copilot, deepseek (also dsh), gemini, gpt, qwen.
 
 Icon variant system:
 - font: Private Use Area codepoints (requires Herdr Agent Icons Max font)
@@ -65,6 +65,13 @@ TEXT_LOGOS: dict[str, str] = {
     "qwen": "\u03d8",
 }
 
+# Agent labels that share another entry's mark. DSH is the DeepSeek Harness,
+# and reports itself as "dsh", so it wears the DeepSeek logo.
+AGENT_ALIASES: dict[str, str] = {
+    "dsh": "deepseek",
+    "deepseek-harness": "deepseek",
+}
+
 VARIANTS = ("auto", "font", "text", "none")
 
 
@@ -115,6 +122,7 @@ def configured_variant(explicit: str | None = None) -> str:
 
 
 def logo_for(agent: str, variant: str) -> str | None:
+    agent = AGENT_ALIASES.get(agent, agent)
     if agent not in PUA_LOGOS or variant == "none":
         return None
     if variant == "auto":
