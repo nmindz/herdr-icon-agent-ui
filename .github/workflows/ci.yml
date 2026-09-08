@@ -27,7 +27,9 @@ jobs:
           python-version: ${{ matrix.python }}
 
       # Runtime plugin uses stdlib only (tomllib ships with 3.11+).
-      - run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+      # test_font needs fontTools (see the font job below); `discover` would
+      # otherwise pick it up too since it also matches test_*.py.
+      - run: python3 -m unittest tests.test_agent_icons tests.test_agent_state -v
 
   font:
     name: Font build and reproducibility

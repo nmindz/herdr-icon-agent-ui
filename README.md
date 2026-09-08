@@ -137,7 +137,7 @@ python3 -m venv .venv-font
 .venv-font/bin/python tools/build_font.py
 
 # Runtime tests (no third-party dependencies)
-python3 -m unittest discover -s tests -p 'test_*.py'
+python3 -m unittest tests.test_agent_icons tests.test_agent_state
 
 # Font structure and reproducibility tests
 .venv-font/bin/python -m unittest tests.test_font
